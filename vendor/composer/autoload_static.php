@@ -25,6 +25,10 @@ class ComposerStaticInitfa5f1d3e1621f1ec503e55b3a60f935f
             'Psr\\Container\\' => 14,
             'PhpOption\\' => 10,
         ),
+        'M' => 
+        array (
+            'Mmo\\Faker\\' => 10,
+        ),
         'G' => 
         array (
             'GrahamCampbell\\ResultType\\' => 26,
@@ -63,6 +67,10 @@ class ComposerStaticInitfa5f1d3e1621f1ec503e55b3a60f935f
         'PhpOption\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
+        ),
+        'Mmo\\Faker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mmo/faker-images/src',
         ),
         'GrahamCampbell\\ResultType\\' => 
         array (
