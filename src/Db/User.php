@@ -36,6 +36,21 @@ class User extends Conexion
         }
     }
 
+    public static function read() : array {
+        $q = "select * from users order by id";
+        $stmt = parent::getConexion()->prepare($q);
+
+        try {
+            $stmt->execute();
+        } catch (PDOException $ex) {
+            throw new PDOException("Error en read: " . $ex->getMessage(), -1);
+        } finally {
+            parent::cerrarConexion();
+        }
+
+        return $stmt->fetchAll(PDO::FETCH_CLASS, User::class);
+    }
+
     // ----------------------------------
     public static function crearRegistros(int $cantidad): void
     {
