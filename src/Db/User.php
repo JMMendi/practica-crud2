@@ -51,6 +51,24 @@ class User extends Conexion
         return $stmt->fetchAll(PDO::FETCH_CLASS, User::class);
     }
 
+    public static function existeCampo(string $nombre, string $valor) : bool {
+        $q = "select count(*) as total from clientes where $nombre=:v";
+        $stmt = parent::getConexion()->prepare($q);
+
+        try {
+            $stmt->execute([
+                ':v' => $valor,
+            ]);
+        } catch (PDOException $ex) {
+            throw new PDOException("Error en create: " . $ex->getMessage(), -1);
+        } finally {
+            parent::cerrarConexion();
+        }
+        $filas = $stmt->fetchAll(PDO::FETCH_OBJ); // un array que puede estar o no vacio. Si está vacio no hay email.
+        return count($filas); // si devuelve cero, es que no existe. En otro caso, hay un email existente.
+    }
+    
+
     // ----------------------------------
     public static function crearRegistros(int $cantidad): void
     {

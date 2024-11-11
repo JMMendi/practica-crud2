@@ -85,6 +85,20 @@ $usuarios = User::read();
             </tbody>
         </table>
     </div>
+    <?php
+        if(isset($_SESSION['mensaje'])) {
+            echo <<< TXT
+                <script>
+                    Swal.fire({
+                        icon: "success",
+                        title: "{$_SESSION['mensaje']}",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                </script>
+            TXT;
+        }
+    ?>
 
 </body>
 
