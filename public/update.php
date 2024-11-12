@@ -19,6 +19,7 @@ if (!$id || $id <= 0) {
 $usuario = User::read($id);
 if (count($usuario) == 0) { // Estoy intentando editar un usauario que no existe
     header("Location:users.php");
+    exit;
 }
 
 $perfiles = Datos::getPerfiles();
@@ -31,6 +32,7 @@ if (isset($_POST['username'])) {
     $perfil = $_POST['perfil'] ?? -1;
 
     $errores = false;
+    
 
     if (!Validaciones::longitudCampoCorrecta($username, 4, 50)) {
         $errores = true;
@@ -68,13 +70,10 @@ if (isset($_POST['username'])) {
         }
     }
 
-    
-
     if ($errores) {
         header("Location:update.php?id=$id");
         exit;
     }
-
 
     // Si llegamos aquí, todo es correcto y guardaremos todo
     (new User)
@@ -119,7 +118,7 @@ if (isset($_POST['username'])) {
     <h3 class="py-2 text-center text-xl">Editar Usuarios</h3>
 
     <div class="mx-auto w-2/4 rounded-x1 shadow-x1 border-2 border-black p-6">
-        <form method="POST" action="<?= $_SERVER['PHP_SELF'] ?>" enctype="multipart/form-data">
+        <form method="POST" action="<?= $_SERVER['PHP_SELF']."?id=$id" ?>" enctype="multipart/form-data">
             <div class="mb-5">
                 <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
                 <input type="text" id="username" name="username" value="<?= $usuario[0]->getUsername() ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Username..." />
@@ -158,7 +157,7 @@ if (isset($_POST['username'])) {
                         <input type="file" name="imagen" accept="image/*" oninput="imgpreview.src=window.URL.createObjectURL(this.files[0])" /> <!-- Esto último es para que muestre la primera imagen que subes -->
                     </div>
                     <div class="w-full ml-8">
-                        <img src="<?php $usuario[0]->getImagen() ?>" id="imgpreview" alt="imagen por defecto" class="w-56 h-56 w-full rounded object-fill">
+                        <img src="<?= $usuario[0]->getImagen() ?>" id="imgpreview" alt="imagen por defecto" class="w-56 h-56 w-full rounded object-fill">
                     </div>
                 </div>
                 <?php Validaciones::pintarError('err_imagen'); ?>
