@@ -52,7 +52,7 @@ class User extends Conexion
     }
 
     public static function existeCampo(string $nombre, string $valor) : bool {
-        $q = "select count(*) as total from clientes where $nombre=:v";
+        $q = "select count(*) as total from users where $nombre=:v";
         $stmt = parent::getConexion()->prepare($q);
 
         try {

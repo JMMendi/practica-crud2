@@ -5,7 +5,7 @@ namespace App\Utils;
 use App\Db\User;
 
 class Validaciones {
-    public static function sanearCadenas(string $cadena) : string {
+    public static function sanearCadena(string $cadena) : string {
         return htmlspecialchars(trim($cadena));
     }
     
@@ -25,7 +25,7 @@ class Validaciones {
         return false;
     }
 
-    public static function isEmailValido($email) : bool {
+    public static function isEmailValido(string $email) : bool {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_SESSION['err_email'] = "*** ERROR, el email no tiene un formato válido. ***";
             return false;
@@ -54,7 +54,7 @@ class Validaciones {
         }
         return true;
     }
-    public static function pintarErrores(string $error) : void {
+    public static function pintarError(string $error) : void {
         if (isset($_SESSION[$error])) {
             echo "<p class='mt-2 text-red-600 text-sm italic'>{$_SESSION[$error]}</p>";
             unset($_SESSION[$error]);

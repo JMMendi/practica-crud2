@@ -13,8 +13,8 @@ $perfiles = Datos::getPerfiles();
 
 if (isset($_POST['username'])) {
     // Procesamos el formulario
-    $username = Validaciones::sanearCadenas($_POST['username']);
-    $email = Validaciones::sanearCadenas($_POST['email']);
+    $username = Validaciones::sanearCadena($_POST['username']);
+    $email = Validaciones::sanearCadena($_POST['email']);
     // $perfil = (isset($_POST['perfil'])) ? $_POST['perfil'] : -1; 
     $perfil = $_POST['perfil'] ?? -1; // Si no es nulo o no existe te pone el -1, si no es así, te asigna el $_POST['perfil]
 
@@ -42,6 +42,7 @@ if (isset($_POST['username'])) {
     if (!Validaciones::isPerfilValido($perfil)) {
         $errores = true;
     }
+
     $imagen = "img/Capibara.jpeg";
     if (is_uploaded_file($_FILES['imagen']['tmp_name'])) {
         // Si estoy aquí, el usuario subió un fichero. Ahora comprobamos si es válido.
@@ -97,16 +98,19 @@ if (isset($_POST['username'])) {
     <h3 class="py-2 text-center text-xl">Crear Usuarios</h3>
 
     <div class="mx-auto w-2/4 rounded-x1 shadow-x1 border-2 border-black p-6">
-        <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST" enctype="multipart/form-data">
+        <form method="POST" action="<?= $_SERVER['PHP_SELF'] ?>" enctype="multipart/form-data">
             <div class="mb-5">
                 <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
-                <input type="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Username..." />
-                <?php Validaciones::pintarErrores('err_username'); ?>
+                <input type="text" id="username" name="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Username..." />
+                <?php
+                Validaciones::pintarError('err_username');
+                ?>
             </div>
+
             <div class="mb-5">
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@flowbite.com" />
-                <?php Validaciones::pintarErrores('err_email'); ?>
+                <input type="email" id="email" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@flowbite.com" />
+                <?php Validaciones::pintarError('err_email'); ?>
 
             </div>
             <div class="mb-5">
@@ -115,26 +119,27 @@ if (isset($_POST['username'])) {
                     <?php
                     foreach ($perfiles as $item) {
                         echo <<< TXT
+                            
                                 <input id="{$item}" type="radio" value="{$item}" name="perfil" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="{$item}" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 mr-4">{$item}</label>
                             TXT;
                     }
                     ?>
-                    <?php Validaciones::pintarErrores('err_perfil'); ?>
-
                 </div>
+                <?php Validaciones::pintarError('err_perfil'); ?>
+
             </div>
             <div class="mb-5">
                 <label for="imagen" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Imagen</label>
                 <div class="flex justify-between">
                     <div>
-                        <input type="file" name="imagen" accept="image/" oninput="imgpreview.src=window.URL.createObjectURL(this.files[0])" /> <!-- Esto último es para que muestre la primera imagen que subes -->
+                        <input type="file" name="imagen" accept="image/*" oninput="imgpreview.src=window.URL.createObjectURL(this.files[0])" /> <!-- Esto último es para que muestre la primera imagen que subes -->
                     </div>
                     <div class="w-full ml-8">
                         <img src="img/Capibara.jpeg" id="imgpreview" alt="imagen por defecto" class="w-56 h-56 w-full rounded object-fill">
                     </div>
                 </div>
-                <?php Validaciones::pintarErrores('err_imagen'); ?>
+                <?php Validaciones::pintarError('err_imagen'); ?>
 
             </div>
             <div class="flex flex-row-reverse mb-2">
