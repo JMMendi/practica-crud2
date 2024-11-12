@@ -36,12 +36,12 @@ class User extends Conexion
         }
     }
 
-    public static function read() : array {
-        $q = "select * from users order by id";
+    public static function read(?int $id=null) : array {
+        $q = ($id === null) ? "select * from users order by id desc" : "select * from users where id=:i";
         $stmt = parent::getConexion()->prepare($q);
 
         try {
-            $stmt->execute();
+            ($id === null) ? $stmt->execute() : $stmt->execute([':i' => $id]);
         } catch (PDOException $ex) {
             throw new PDOException("Error en read: " . $ex->getMessage(), -1);
         } finally {
@@ -51,21 +51,44 @@ class User extends Conexion
         return $stmt->fetchAll(PDO::FETCH_CLASS, User::class);
     }
 
-    public static function existeCampo(string $nombre, string $valor) : bool {
-        $q = "select count(*) as total from users where $nombre=:v";
-        $stmt = parent::getConexion()->prepare($q);
 
+    public function update(int $id) {
+        $q = "update users set username=:u, email=:e, imagen=:i, perfil=:p where id=:id";
+        $stmt = parent::getConexion()->prepare($q);
+        
         try {
             $stmt->execute([
-                ':v' => $valor,
+                ':u' => $this->username,
+                ':e' => $this->email,
+                ':p' => $this->perfil,
+                ':i' => $this->imagen,
+                ':id' => $id
+                
             ]);
         } catch (PDOException $ex) {
-            throw new PDOException("Error en create: " . $ex->getMessage(), -1);
+            throw new PDOException("Error en update: " . $ex->getMessage(), -1);
         } finally {
             parent::cerrarConexion();
         }
-        $filas = $stmt->fetchAll(PDO::FETCH_OBJ); // un array que puede estar o no vacio. Si está vacio no hay email.
-        return count($filas); // si devuelve cero, es que no existe. En otro caso, hay un email existente.
+
+        return $stmt->fetchAll(PDO::FETCH_CLASS, User::class);
+    }
+
+    public static function existeCampo(string $nombre, string $valor, ?int $id=null):bool{
+        $q = ($id === null) ? "select count(*) as total from users where $nombre=:v" : "select count(*) as total from users where $nombre=:v AND id <> :i";
+        $stmt=parent::getConexion()->prepare($q);
+        $parametros = ($id === null) ? [':v' => $valor] : [':v' => $valor, ':i' => $id];
+
+        try{
+            $stmt->execute($parametros);
+        }catch(PDOException $ex){
+            throw new PDOException("Error en crear: ".$ex->getMessage(), -1);
+        }finally{
+            parent::cerrarConexion();
+        }
+        $filas=$stmt->fetchAll(PDO::FETCH_OBJ)[0]->total; //un array que puede estar o no vacio
+        return $filas; // si devuelve cero
+
     }
     
 

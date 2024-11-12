@@ -76,7 +76,7 @@ $usuarios = User::read();
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
+                            <a href="update.php?id={$item->getId()}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"><i class="fas fa-edit mr-2"></i></a>
                         </td>
                     </tr>
                 TXT;
@@ -97,6 +97,7 @@ $usuarios = User::read();
                     });
                 </script>
             TXT;
+            unset($_SESSION['mensaje']);
         }
     ?>
 

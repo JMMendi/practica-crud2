@@ -3,7 +3,7 @@
         'name' => 'jmmendi/crud2',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '4a0e094618b0e67fb10aef10d440fcb34258bae3',
+        'reference' => '075cead8519bf22442ac82fbd2e0cba79bbd21b3',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'fakerphp/faker' => array(
-            'pretty_version' => 'v1.23.1',
-            'version' => '1.23.1.0',
-            'reference' => 'bfb4fe148adbf78eff521199619b93a52ae3554b',
+            'pretty_version' => 'v1.24.0',
+            'version' => '1.24.0.0',
+            'reference' => 'a136842a532bac9ecd8a1c723852b09915d7db50',
             'type' => 'library',
             'install_path' => __DIR__ . '/../fakerphp/faker',
             'aliases' => array(),
@@ -31,7 +31,7 @@
         'jmmendi/crud2' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '4a0e094618b0e67fb10aef10d440fcb34258bae3',
+            'reference' => '075cead8519bf22442ac82fbd2e0cba79bbd21b3',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

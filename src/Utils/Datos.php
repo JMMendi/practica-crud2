@@ -2,7 +2,6 @@
 
 namespace App\Utils;
 
-require __DIR__."/../../vendor/autoload.php";
 
 class Datos {
     public static function getPerfiles() : array {
@@ -13,7 +12,7 @@ class Datos {
         return [
             'image/gif',
             'image/png',
-            'image/jpg',
+            'image/jpeg',
             'image/bmp',
             'image/webp'
         ];
