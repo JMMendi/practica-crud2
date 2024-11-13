@@ -76,7 +76,11 @@ $usuarios = User::read();
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <a href="update.php?id={$item->getId()}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"><i class="fas fa-edit mr-2"></i></a>
+                            <form method="POST" action="delete.php">
+                                <input type="hidden" name="id" value="{$item->getId()}" />
+                                <a href="update.php?id={$item->getId()}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"><i class="fas fa-edit text-xl hover:text-2xl mr-2"></i></a>
+                                <button type="submit"><i class="fas fa-trash text-xl text-red-500 hover:text-2xl"></i></button>
+                            </form>
                         </td>
                     </tr>
                 TXT;

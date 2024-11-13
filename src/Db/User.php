@@ -36,6 +36,22 @@ class User extends Conexion
         }
     }
 
+    public static function delete(int $id) : void {
+        $q = "delete from users where id=:i";
+        $stmt = parent::getConexion()->prepare($q);
+
+        try{
+            $stmt->execute([
+                ':i' => $id
+            ]);
+        }catch(PDOException $ex){
+            throw new PDOException("Error en delete: ".$ex->getMessage(), -1);
+        }finally{
+            parent::cerrarConexion();
+        }
+        
+    }
+
     public static function read(?int $id=null) : array {
         $q = ($id === null) ? "select * from users order by id desc" : "select * from users where id=:i";
         $stmt = parent::getConexion()->prepare($q);
